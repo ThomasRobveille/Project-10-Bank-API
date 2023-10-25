@@ -46,3 +46,13 @@
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
 }
+
+.infoLogin{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.infoLogin h3{
+  margin: 0 15px;
+}

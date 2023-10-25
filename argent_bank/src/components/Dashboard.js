@@ -1,11 +1,59 @@
+import { useState } from "react"
 import "../stylesheet/Dashboard.css"
+import { useSelector, useDispatch } from "react-redux"
+import { updateUserProfile } from "../services/SignIn"
+import { setUser } from "../store/LoginSlice"
+import { useNavigate } from "react-router-dom"
+
 
 export default function Dashboard() {
+
+  const userName = useSelector(state => state.userName)
+  const token = useSelector(state => state.token)
+  const [showEdit, setShowEdit] = useState(false)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  async function updateUser(){
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let data = {
+      firstName: firstName,
+      lastName: lastName,
+    }
+    try{
+      const updateUser = await updateUserProfile(token, data)
+      dispatch(setUser(data))
+      setShowEdit(false)
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  function showEditTrigger(e){
+    setShowEdit(true)
+  }
+  
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
-        <button className="edit-button">Edit Name</button>
+        <h1>Welcome back<br />{userName.firstName} {userName.lastName}</h1>
+        {
+          showEdit == false ? (
+            <button className="edit-button" onClick={() => showEditTrigger()}>Edit Name</button>
+          ) : (
+          <div className="editFormContainer">
+            <div className="editAction editForm">
+              <input id="firstName" type="text" name="firstName" placeholder={userName.firstName}/>
+              <input id="lastName" type="text" name="lastName" placeholder={userName.lastName}/>
+            </div>
+            <div className="editAction editButton">
+              <button onClick={() => updateUser()}>Save</button>
+              <button className="edit-button" onClick={() => setShowEdit(false)}>Cancel</button>
+            </div> 
+          </div>
+          )
+        }        
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">

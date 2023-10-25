@@ -1,13 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
+import loginSlice from './LoginSlice.js';
 
-import userReducer from '../features/user/userSlice'
-import accountReducer from '../features/account/accountSlice'
-import transactionReducer from '../features/transaction/transactionSlice'
+const store = configureStore({
+  reducer: loginSlice,
+});
 
-export default configureStore({
-  reducer: {
-    user: userReducer,
-    account: accountReducer,
-    transaction: transactionReducer
-  }
-})
+export default store;
