@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 import { Provider, useSelector } from 'react-redux'
@@ -16,8 +16,18 @@ function App() {
   const login = () => setUser(true);
   const logout = () => setUser(false);
 
-  const RequireAuth = ({ user,children }) => { 
+  useEffect(() => {
+    if (localStorage.getItem('token')){
+      login()
+    }
+  }, [])
+
+  const RequireAuth = ({ user, children }) => { 
     const location = useLocation();
+    if(localStorage.getItem('token')){
+      login()
+      user = true
+    }
     return user ? children : <Navigate to={{pathname: '/sign_in', state: { from: location }}} replace/>;
   };
 

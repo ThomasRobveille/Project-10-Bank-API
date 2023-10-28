@@ -16,7 +16,7 @@ export default function Header() {
   const userName = useSelector((state) => state.userName)
 
   function userIsLogged(){
-    if(token){
+    if(token || localStorage.getItem('token')){
       return setIsLogged(true)
     }
     return setIsLogged(false)
@@ -25,6 +25,7 @@ export default function Header() {
   function logout(e){
     e.preventDefault()
     dispatch(userLogout())
+    localStorage.removeItem('token')
     navigate("/")
   }
 
