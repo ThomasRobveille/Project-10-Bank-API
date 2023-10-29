@@ -1,7 +1,7 @@
 import react, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { userLogout } from "../store/LoginSlice"
+import { userLogout, setUser } from "../store/LoginSlice"
 
 import "../stylesheet/Header.css"
 import ArgentBankLogo from "../assets/img/argentBankLogo.png"
@@ -15,8 +15,10 @@ export default function Header() {
   const token = useSelector((state) => state.token)
   const userName = useSelector((state) => state.userName)
 
-  function userIsLogged(){
+  async function userIsLogged(){
     if(token || localStorage.getItem('token')){
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      dispatch(setUser(user))
       return setIsLogged(true)
     }
     return setIsLogged(false)

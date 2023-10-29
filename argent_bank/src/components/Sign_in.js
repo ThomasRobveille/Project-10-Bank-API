@@ -32,13 +32,14 @@ export default function Sign_in({login, logout, user}) {
     }
     try{
       const token = await SignInUser(data)
-      dispatch(userLogin(token.body.token))
+      dispatch(userLogin(token.body.token))     
+      const user = await DataUser(token.body.token)      
+      dispatch(setUser(user.body))
       let remerberMe = document.getElementById('remember-me')
       if(remerberMe.checked){
         localStorage.setItem('token', token.body.token)
+        sessionStorage.setItem('user', JSON.stringify(user.body))
       }
-      const user = await DataUser(token.body.token)
-      dispatch(setUser(user.body))
       navigate("/user")
     } catch(error){
       console.log(error)

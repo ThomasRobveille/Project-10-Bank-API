@@ -7,6 +7,7 @@ import store from "./store/store"
 import HomePage from './pages/HomePage';
 import DashboardPage  from './pages/DashboardPage';
 import SignInPage from './pages/Sign_inPage';
+import Error from './pages/404';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,6 +43,7 @@ function App() {
             </RequireAuth> 
           }/>               
           <Route path="/sign_in" element={<SignInPage/>}/>
+          <Route path="*" element={<Error/>}/>
         </Routes>
       </Router> 
     </Provider>

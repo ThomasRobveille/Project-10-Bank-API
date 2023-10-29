@@ -17,6 +17,8 @@ export default function Dashboard() {
   async function updateUser(){
     let firstName = document.getElementById("firstName").value;
     let lastName = document.getElementById("lastName").value;
+    if(firstName === "") firstName = userName.firstName
+    if(lastName === "") lastName = userName.lastName
     let data = {
       firstName: firstName,
       lastName: lastName,
@@ -24,6 +26,7 @@ export default function Dashboard() {
     try{
       const updateUser = await updateUserProfile(token, data)
       dispatch(setUser(data))
+      sessionStorage.setItem('user', JSON.stringify(data))
       setShowEdit(false)
     } catch(error) {
       console.log(error)
